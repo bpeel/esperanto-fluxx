@@ -48,7 +48,7 @@ my $card_y = $PAGE_BORDER;
 
 sub add_card
 {
-    my ($cr, $color, $title, $type) = @_;
+    my ($cr, %args) = @_;
 
     $cr->save();
 
@@ -81,38 +81,47 @@ sub add_card
     $cr->stroke();
 
     # Draw the background of side title
-    $cr->save();
-    $cr->set_source_rgb(@$color);
-    $cr->rectangle($INSET, $INSET,
-                   $SIDE_TITLE_WIDTH,
-                   $CARD_HEIGHT - $INSET * 2);
-    $cr->fill();
-    $cr->restore();
+    if ($args{color})
+    {
+        $cr->save();
+        $cr->set_source_rgb(@{$args{color}});
+        $cr->rectangle($INSET, $INSET,
+                       $SIDE_TITLE_WIDTH,
+                       $CARD_HEIGHT - $INSET * 2);
+        $cr->fill();
+        $cr->restore();
+    }
 
     # Draw the side title
-    $cr->set_font_size($SIDE_TITLE_FONT_SIZE);
-    my $font_extents = $cr->font_extents();
-    my $text_extents = $cr->text_extents(uc($title));
-    $cr->move_to($INSET + $SIDE_TITLE_WIDTH / 2 -
-                 ($font_extents->{ascent} + $font_extents->{descent}) / 2 +
-                 $font_extents->{ascent},
-                 $INSET + $SIDE_TITLE_OFFSET_FROM_TOP +
-                 $text_extents->{width});
-    $cr->save();
-    $cr->rotate(pi / -2);
-    $cr->show_text(uc($title));
-    $cr->restore();
+    if ($args{title})
+    {
+        $cr->set_font_size($SIDE_TITLE_FONT_SIZE);
+        my $font_extents = $cr->font_extents();
+        my $text_extents = $cr->text_extents(uc($args{title}));
+        $cr->move_to($INSET + $SIDE_TITLE_WIDTH / 2 -
+                     ($font_extents->{ascent} + $font_extents->{descent}) / 2 +
+                     $font_extents->{ascent},
+                     $INSET + $SIDE_TITLE_OFFSET_FROM_TOP +
+                     $text_extents->{width});
+        $cr->save();
+        $cr->rotate(pi / -2);
+        $cr->show_text(uc($args{title}));
+        $cr->restore();
+    }
 
     my $y = $INSET;
 
     # Draw the top title
-    $cr->set_font_size($TOP_TITLE_FONT_SIZE);
-    $font_extents = $cr->font_extents();
-    $cr->move_to($INSET + $SIDE_TITLE_WIDTH + $SIDE_GAP,
-                 $y + $TOP_TITLE_HEIGHT / 2 -
-                 ($font_extents->{ascent} + $font_extents->{descent}) / 2 +
-                 $font_extents->{ascent});
-    $cr->show_text(uc($type));
+    if ($args{type})
+    {
+        $cr->set_font_size($TOP_TITLE_FONT_SIZE);
+        my $font_extents = $cr->font_extents();
+        $cr->move_to($INSET + $SIDE_TITLE_WIDTH + $SIDE_GAP,
+                     $y + $TOP_TITLE_HEIGHT / 2 -
+                     ($font_extents->{ascent} + $font_extents->{descent}) / 2 +
+                     $font_extents->{ascent});
+        $cr->show_text(uc($args{type}));
+    }
     $y += $TOP_TITLE_HEIGHT + $TOP_TITLE_GAP;
 
     # Draw the top paragraph
@@ -120,13 +129,16 @@ sub add_card
     $y += $TOP_PARAGRAPH_HEIGHT + $TOP_PARAGRAPH_GAP;
 
     # Draw the center title
-    $cr->set_font_size($CENTER_TITLE_FONT_SIZE);
-    $font_extents = $cr->font_extents();
-    $cr->move_to($INSET + $SIDE_TITLE_WIDTH + $SIDE_GAP,
-                 $y + $CENTER_TITLE_HEIGHT / 2 -
-                 ($font_extents->{ascent} + $font_extents->{descent}) / 2 +
-                 $font_extents->{ascent});
-    $cr->show_text($title);
+    if ($args{title})
+    {
+        $cr->set_font_size($CENTER_TITLE_FONT_SIZE);
+        my $font_extents = $cr->font_extents();
+        $cr->move_to($INSET + $SIDE_TITLE_WIDTH + $SIDE_GAP,
+                     $y + $CENTER_TITLE_HEIGHT / 2 -
+                     ($font_extents->{ascent} + $font_extents->{descent}) / 2 +
+                     $font_extents->{ascent});
+        $cr->show_text($args{title});
+    }
     $y += $CENTER_TITLE_HEIGHT + $CENTER_TITLE_GAP;
 
     # Draw the horizontal rule
@@ -167,15 +179,10 @@ $cr->scale($POINTS_PER_MM, $POINTS_PER_MM);
 # Use ½mm line width
 $cr->set_line_width(0.5);
 
-add_card($cr, $ACTION_COLOR, "Go Fiŝ", "Action");
-add_card($cr, $ACTION_COLOR, "Go Fish", "Action");
-add_card($cr, $ACTION_COLOR, "Go Fish", "Action");
-add_card($cr, $ACTION_COLOR, "Go Fish", "Action");
-add_card($cr, $ACTION_COLOR, "Go Fish", "Action");
-add_card($cr, $ACTION_COLOR, "Go Fish", "Action");
-add_card($cr, $ACTION_COLOR, "Go Fish", "Action");
-add_card($cr, $ACTION_COLOR, "Go Fish", "Action");
-add_card($cr, $ACTION_COLOR, "Go Fish", "Action");
-add_card($cr, $ACTION_COLOR, "Go Fish", "Action");
-add_card($cr, $ACTION_COLOR, "Go Fish", "Action");
-add_card($cr, $ACTION_COLOR, "Go Fish", "Action");
+add_card($cr, color => $ACTION_COLOR, title => "Go Fish", type => "Action");
+add_card($cr, color => $ACTION_COLOR, title => "Go Fish", type => "Action");
+add_card($cr, color => $ACTION_COLOR, title => "Go Fish", type => "Action");
+add_card($cr, color => $ACTION_COLOR, title => "Go Fish", type => "Action");
+add_card($cr, color => $ACTION_COLOR, title => "Go Fish", type => "Action");
+add_card($cr, color => $ACTION_COLOR, title => "Go Fish", type => "Action");
+add_card($cr, color => $ACTION_COLOR, title => "Go Fish", type => "Action");
