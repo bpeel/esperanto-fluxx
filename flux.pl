@@ -40,8 +40,7 @@ my $SIDE_TITLE_OFFSET_FROM_TOP = 9;
 my $TOP_TITLE_HEIGHT = 9;
 my $TOP_TITLE_GAP = 1;
 
-my $TOP_PARAGRAPH_HEIGHT = 25;
-my $TOP_PARAGRAPH_GAP = 2;
+my $CENTER_TITLE_POS = $INSET + 37;
 my $CENTER_TITLE_HEIGHT = 5;
 my $CENTER_TITLE_GAP = 2;
 my $RULE_HEIGHT = 1;
@@ -202,7 +201,7 @@ sub add_card
         render_paragraph($cr, $y, $args{top_paragraph});;
     }
 
-    $y += $TOP_PARAGRAPH_HEIGHT + $TOP_PARAGRAPH_GAP;
+    $y = $CENTER_TITLE_POS;
 
     # Draw the center title
     if ($args{title})
