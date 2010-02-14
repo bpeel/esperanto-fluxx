@@ -1,3 +1,9 @@
 tank.svg:Milito
 peace.svg:Paco
 money.svg:Mono
+television.svg:Televido
+toaster.svg:Panrostilo
+moon.svg:La Luno
+milk.svg:Lakto
+bread.svg:Pano
+clock.svg:Tempo
