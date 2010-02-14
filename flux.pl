@@ -27,6 +27,7 @@ my $INSET = 3;
 my $SIDE_TITLE_WIDTH = 8;
 
 my $ACTION_COLOR = [ 61 / 255.0, 193 / 255.0, 185 / 255.0 ];
+my $KEEPER_COLOR = [ 177 / 255.0, 246 / 255.0, 64 / 255.0 ];
 
 my $SIDE_GAP = 2;
 
@@ -203,6 +204,29 @@ sub add_card
         $y += $BOTTOM_PARAGRAPH_GAP;
     }
 
+    # Draw the bottom images
+    if ($args{bottom_images})
+    {
+        my $images = $args{bottom_images};
+        my $x = $INSET + $SIDE_TITLE_WIDTH + $SIDE_GAP;
+        my $x_size = ($CARD_WIDTH - $INSET - $x) / @$images;
+        my $y_size = $CARD_HEIGHT - $INSET - $y;
+
+        foreach my $image (@$images)
+        {
+            my $image_size = $x_size < $y_size ? $x_size : $y_size;
+
+            $cr->save();
+            $cr->translate($x + $x_size / 2.0 - $image_size / 2.0,
+                           $y + $y_size / 2.0 - $image_size / 2.0);
+            $cr->scale($image_size / 100.0, $image_size / 100.0);
+            $image->render_cairo($cr);
+            $cr->restore();
+
+            $x += $x_size;
+        }
+    }
+
     $cr->restore();
 
     # Move to the next horizontal card space
@@ -305,6 +329,37 @@ sub add_actions
     }
 }
 
+sub add_keepers
+{
+    my ($cr) = @_;
+    my $icon = load_image("keeper.svg");
+    my $fin;
+
+    open($fin, "<:encoding(UTF-8)", "keepers.txt")
+        or die("Error opening keepers.txt");
+    while (my $line = <$fin>)
+    {
+        chomp($line);
+
+        if ($line =~ /^(.+):(.+)$/)
+        {
+            my $image = load_image($1);
+            my $name = $2;
+
+            add_card($cr,
+                     type => "Tenaĵo",
+                     title => $name,
+                     icon => $icon,
+                     color => $KEEPER_COLOR,
+                     top_paragraph => ("Kiam oni ludas ĉi tiun karton, "
+                                       . "metu ĝin montrante la facon sur "
+                                       . "la tablon antaŭ vi"),
+                     bottom_images => [ $image ]);
+        }
+    }
+    close($fin);
+}
+
 my $surface = Cairo::PdfSurface->create("flux.pdf",
                                         $PAGE_WIDTH * $POINTS_PER_MM,
                                         $PAGE_HEIGHT * $POINTS_PER_MM);
@@ -318,3 +373,4 @@ $cr->scale($POINTS_PER_MM, $POINTS_PER_MM);
 $cr->set_line_width(0.5);
 
 add_actions($cr);
+add_keepers($cr);

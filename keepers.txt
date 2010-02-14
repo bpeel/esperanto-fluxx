@@ -1,0 +1,3 @@
+tank.svg:Milito
+peace.svg:Paco
+money.svg:Mono
