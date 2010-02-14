@@ -27,6 +27,8 @@ my $INSET = 3;
 my $SIDE_TITLE_WIDTH = 8;
 my $HIGHLIGHT_WIDTH = 0.5;
 
+my $NEW_RULE_COLOR = [ 244 / 255.0, 217 / 255.0, 38 / 255.0 ];
+my $BASIC_RULES_COLOR = [ 255 / 255.0, 97 / 255.0, 27 / 255.0 ];
 my $ACTION_COLOR = [ 61 / 255.0, 193 / 255.0, 185 / 255.0 ];
 my $KEEPER_COLOR = [ 177 / 255.0, 246 / 255.0, 64 / 255.0 ];
 
@@ -326,6 +328,31 @@ sub load_image
     return $rsvg;
 }
 
+sub add_basic_rules
+{
+    my ($cr) = @_;
+
+    my $icon = load_image("basic-rules.svg");
+
+    add_card($cr,
+             color => $NEW_RULE_COLOR,
+             title => "Prenu 1, Ludu 1",
+             type => "Bazaj Reguloj",
+             top_paragraph =>
+             "Komence, miksu la kartaron kaj disdoni 3 kartojn po ludanto. "
+             . "Metu ĉi tiun karton ĉe la mezo de la tablo.",
+             bottom_paragraph =>
+             "Prenu 1 karton po vico.\n"
+             . "Ludu 1 karton po vico.\n"
+             . "Neniu manlimo.\n"
+             . "Neniu limo de tenaĵoj.\n"
+             . "\n"
+             . "Ĉi tiu karto restu sur la tablo eĉ se novaj reguloj "
+             . "anstataŭigas la bazajn regulojn.",
+             side_highlight => $BASIC_RULES_COLOR,
+             icon => $icon);
+}
+
 sub add_action_card
 {
     my ($cr, $title, $description, $icon) = @_;
@@ -423,5 +450,6 @@ $cr->scale($POINTS_PER_MM, $POINTS_PER_MM);
 # Use ½mm line width
 $cr->set_line_width(0.5);
 
+add_basic_rules($cr);
 add_actions($cr);
 add_keepers($cr);
