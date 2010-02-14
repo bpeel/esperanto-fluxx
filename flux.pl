@@ -5,6 +5,7 @@ use warnings;
 
 use Cairo;
 use Math::Trig;
+use Gnome2::Rsvg;
 
 my $POINTS_PER_MM = 2.8346457;
 
@@ -109,6 +110,17 @@ sub add_card
         $cr->restore();
     }
 
+    # Render the top icon
+    if ($args{icon})
+    {
+        # Fit into the side bar
+        $cr->save();
+        $cr->translate($INSET, $INSET);
+        $cr->scale($SIDE_TITLE_WIDTH / 100.0, $SIDE_TITLE_WIDTH / 100.0);
+        $args{icon}->render_cairo($cr);
+        $cr->restore();
+    }
+
     my $y = $INSET;
 
     # Draw the top title
@@ -167,6 +179,35 @@ sub add_card
     }
 }
 
+sub svg_size_cb
+{
+    # Let's just fix the size of all of the svgs to 100,100 so we can
+    # scale it to the right size later
+    return (100, 100);
+}
+
+sub load_image
+{
+    my ($filename) = @_;
+
+    my $rsvg = Gnome2::Rsvg::Handle->new();
+    $rsvg->set_size_callback(\&svg_size_cb);
+    my $fin;
+
+    open($fin, $filename) or die("failed opening '$filename'");
+
+    while (my $line = <$fin>)
+    {
+        $rsvg->write($line) or die("Couldn't parse '$filename'");
+    }
+
+    close($fin);
+
+    $rsvg->close();
+
+    return $rsvg;
+}
+
 my $surface = Cairo::PdfSurface->create("flux.pdf",
                                         $PAGE_WIDTH * $POINTS_PER_MM,
                                         $PAGE_HEIGHT * $POINTS_PER_MM);
@@ -179,10 +220,10 @@ $cr->scale($POINTS_PER_MM, $POINTS_PER_MM);
 # Use ½mm line width
 $cr->set_line_width(0.5);
 
-add_card($cr, color => $ACTION_COLOR, title => "Go Fish", type => "Action");
-add_card($cr, color => $ACTION_COLOR, title => "Go Fish", type => "Action");
-add_card($cr, color => $ACTION_COLOR, title => "Go Fish", type => "Action");
-add_card($cr, color => $ACTION_COLOR, title => "Go Fish", type => "Action");
-add_card($cr, color => $ACTION_COLOR, title => "Go Fish", type => "Action");
-add_card($cr, color => $ACTION_COLOR, title => "Go Fish", type => "Action");
-add_card($cr, color => $ACTION_COLOR, title => "Go Fish", type => "Action");
+my $rsvg = load_image("action.svg");
+
+add_card($cr,
+         color => $ACTION_COLOR,
+         title => "Go Fish",
+         type => "Action",
+         icon => $rsvg);
