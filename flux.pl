@@ -185,15 +185,37 @@ sub add_card
     # Draw the top title
     if ($args{type})
     {
+        my $x = $INSET + $SIDE_TITLE_WIDTH + $SIDE_GAP;
+        my $max_width = $CARD_WIDTH - $x - $INSET;
+        my $scale = 1.0;
+        my $title_string = uc($args{type});
+
         $cr->set_font_size($TOP_TITLE_FONT_SIZE);
+
+        my $text_extents = $cr->text_extents($title_string);
+
+        # If the title is too wide then scale it to fit
+        if ($text_extents->{width} > $max_width)
+        {
+            $scale = $max_width / $text_extents->{width};
+        }
+
+        $cr->move_to($x, $y);
+
+        $cr->save();
+        $cr->scale($scale, $scale);
+
         my $font_extents = $cr->font_extents();
-        $cr->move_to($INSET + $SIDE_TITLE_WIDTH + $SIDE_GAP,
-                     $y + $TOP_TITLE_HEIGHT / 2 -
-                     ($font_extents->{ascent} + $font_extents->{descent}) / 2 +
-                     $font_extents->{ascent});
-        $cr->show_text(uc($args{type}));
+        $cr->rel_move_to(0, $TOP_TITLE_HEIGHT / 2
+                         - ($font_extents->{ascent}
+                            + $font_extents->{descent}) / 2
+                         + $font_extents->{ascent});
+        $cr->show_text($title_string);
+
+        $cr->restore();
+
+        $y += $TOP_TITLE_HEIGHT * $scale + $TOP_TITLE_GAP;
     }
-    $y += $TOP_TITLE_HEIGHT + $TOP_TITLE_GAP;
 
     # Draw the top paragraph
     if ($args{top_paragraph})
