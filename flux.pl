@@ -368,7 +368,7 @@ sub add_keepers
                      color => $KEEPER_COLOR,
                      top_paragraph => ("Kiam oni ludas ĉi tiun karton, "
                                        . "metu ĝin montrante la facon sur "
-                                       . "la tablon antaŭ vi"),
+                                       . "la tablon antaŭ vi."),
                      bottom_images => [ $image ]);
         }
     }
