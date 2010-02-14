@@ -7,6 +7,7 @@ use Cairo;
 use Math::Trig;
 use Gnome2::Rsvg;
 use Pango;
+use utf8;
 
 my $POINTS_PER_MM = 2.8346457;
 
@@ -250,6 +251,60 @@ sub load_image
     return $rsvg;
 }
 
+sub add_action_card
+{
+    my ($cr, $title, $description, $icon) = @_;
+
+    add_card($cr,
+             color => $ACTION_COLOR,
+             title => $title,
+             type => "Ago",
+             top_paragraph => ("Kiam oni ludas ĉi tiun karton, "
+                               . "faru tion ajn kiu estas skribata."),
+             bottom_paragraph => $description,
+             icon => $icon);
+}
+
+sub add_actions
+{
+    my ($cr) = @_;
+
+    my $icon = load_image("action.svg");
+
+    my $title = "";
+    my $description = "";
+    my $fin;
+
+    open($fin, "<:encoding(UTF-8)", "actions.txt")
+        or die("Error opening actions.txt");
+    while (my $line = <$fin>)
+    {
+        chomp($line);
+
+        if ($line =~ /^:(.*)/)
+        {
+            if ($title)
+            {
+                add_action_card($cr, $title, $description, $icon);
+                $description = "";
+            }
+            $title = $1;
+        }
+        elsif ($title && $line =~ /./)
+        {
+            $description .= " " if ($description);
+            $description .= $line;
+        }
+    }
+    close($fin);
+
+    if ($title)
+    {
+        add_action_card($cr, $title, $description, $icon);
+        $description = "";
+    }
+}
+
 my $surface = Cairo::PdfSurface->create("flux.pdf",
                                         $PAGE_WIDTH * $POINTS_PER_MM,
                                         $PAGE_HEIGHT * $POINTS_PER_MM);
@@ -262,17 +317,4 @@ $cr->scale($POINTS_PER_MM, $POINTS_PER_MM);
 # Use ½mm line width
 $cr->set_line_width(0.5);
 
-my $rsvg = load_image("action.svg");
-
-add_card($cr,
-         color => $ACTION_COLOR,
-         title => "Go Fish",
-         type => "Action",
-         top_paragraph => "When you play this card, do whatever it says.",
-
-         bottom_paragraph => "Name a card. If someone has that card in "
-         . "their hand, they must give it to you. If no one does, draw a "
-         . "card. In either case, if you got the card you requested, you "
-         . "get to play it immediately.",
-
-         icon => $rsvg);
+add_actions($cr);
