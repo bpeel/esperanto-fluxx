@@ -25,6 +25,7 @@ my $CORNER_RADIUS = 4;
 my $INSET = 3;
 
 my $SIDE_TITLE_WIDTH = 8;
+my $HIGHLIGHT_WIDTH = 0.5;
 
 my $ACTION_COLOR = [ 61 / 255.0, 193 / 255.0, 185 / 255.0 ];
 my $KEEPER_COLOR = [ 177 / 255.0, 246 / 255.0, 64 / 255.0 ];
@@ -168,6 +169,20 @@ sub add_card
         $cr->save();
         $cr->rotate(pi / -2);
         $cr->show_text(uc($args{title}));
+        $cr->restore();
+    }
+
+    # Draw the side title highlight
+    if ($args{side_highlight})
+    {
+        $cr->save();
+        $cr->set_source_rgb(@{$args{side_highlight}});
+        $cr->rectangle($INSET, $INSET, $HIGHLIGHT_WIDTH,
+                       $CARD_HEIGHT - $INSET * 2);
+        $cr->rectangle($INSET + $SIDE_TITLE_WIDTH - $HIGHLIGHT_WIDTH,
+                       $INSET, $HIGHLIGHT_WIDTH,
+                       $CARD_HEIGHT - $INSET * 2);
+        $cr->fill();
         $cr->restore();
     }
 
