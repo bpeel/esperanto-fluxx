@@ -7,9 +7,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   height="750"
+   height="435"
    version="1.0"
-   viewBox="-3206 -1300 6356 6355.9949"
+   viewBox="-3206 -1300 6356 3686.477"
    width="750"
    id="svg2"
    inkscape:version="0.47pre4 r22446"
@@ -38,9 +38,9 @@
      inkscape:window-height="716"
      id="namedview1222"
      showgrid="false"
-     inkscape:zoom="0.50628846"
+     inkscape:zoom="0.73466667"
      inkscape:cx="375"
-     inkscape:cy="362.62457"
+     inkscape:cy="217.5"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="0"
@@ -96,7 +96,7 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="matrix(0.99597743,0,0,-1.4222835,3.8254238,1513.4421)"
+     transform="matrix(0.99597743,0,0,-1.4222835,3.8254238,534.54198)"
      id="g6">
     <path
        d="m -46,108 10,4 3,9 -3,9 -10,4 z"
