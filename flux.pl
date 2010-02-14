@@ -6,6 +6,7 @@ use warnings;
 use Cairo;
 use Math::Trig;
 use Gnome2::Rsvg;
+use Pango;
 
 my $POINTS_PER_MM = 2.8346457;
 
@@ -44,8 +45,38 @@ my $CENTER_TITLE_GAP = 2;
 my $RULE_HEIGHT = 1;
 my $RULE_GAP = 2;
 
+my $BOTTOM_PARAGRAPH_GAP = 2;
+
 my $card_x = $PAGE_BORDER;
 my $card_y = $PAGE_BORDER;
+
+sub render_paragraph
+{
+    my ($cr, $y, $text) = @_;
+
+    my $x = $INSET + $SIDE_TITLE_WIDTH + $SIDE_GAP;
+
+    $cr->move_to($x, $y);
+
+    $cr->save();
+
+    # Remove the mm scale
+    $cr->scale(1.0 / $POINTS_PER_MM, 1.0 / $POINTS_PER_MM);
+
+    my $layout = Pango::Cairo::create_layout($cr);
+    my $fd = Pango::FontDescription->from_string("Serif 6.5");
+    $layout->set_font_description($fd);
+    $layout->set_width(($CARD_WIDTH - $x - $INSET) * $POINTS_PER_MM
+                       * Pango->scale);
+    $layout->set_text($text);
+    Pango::Cairo::show_layout($cr, $layout);
+
+    $cr->restore();
+
+    my ($ink_rect, $logical_rect) = $layout->get_pixel_extents();
+
+    return $logical_rect->{height} / $POINTS_PER_MM;
+}
 
 sub add_card
 {
@@ -137,7 +168,11 @@ sub add_card
     $y += $TOP_TITLE_HEIGHT + $TOP_TITLE_GAP;
 
     # Draw the top paragraph
-    # FIXME
+    if ($args{top_paragraph})
+    {
+        render_paragraph($cr, $y, $args{top_paragraph});;
+    }
+
     $y += $TOP_PARAGRAPH_HEIGHT + $TOP_PARAGRAPH_GAP;
 
     # Draw the center title
@@ -159,6 +194,13 @@ sub add_card
                    $RULE_HEIGHT);
     $cr->fill();
     $y += $RULE_HEIGHT + $RULE_GAP;
+
+    # Draw the bottom paragraph
+    if ($args{bottom_paragraph})
+    {
+        $y += render_paragraph($cr, $y, $args{bottom_paragraph});
+        $y += $BOTTOM_PARAGRAPH_GAP;
+    }
 
     $cr->restore();
 
@@ -226,4 +268,11 @@ add_card($cr,
          color => $ACTION_COLOR,
          title => "Go Fish",
          type => "Action",
+         top_paragraph => "When you play this card, do whatever it says.",
+
+         bottom_paragraph => "Name a card. If someone has that card in "
+         . "their hand, they must give it to you. If no one does, draw a "
+         . "card. In either case, if you got the card you requested, you "
+         . "get to play it immediately.",
+
          icon => $rsvg);
