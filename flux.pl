@@ -80,6 +80,35 @@ sub render_paragraph
     return $logical_rect->{height} / $POINTS_PER_MM;
 }
 
+sub fit_image
+{
+    my ($cr, $image, $x, $y, $width, $height) = @_;
+
+    my $scale = 1;
+
+    my $dim = $image->get_dimensions();
+
+    if ($dim->{width} / $dim->{height} > $width / $height)
+    {
+        # scale to fit the width
+        $scale = $width / $dim->{width};
+    }
+    else
+    {
+        # scale to fit the height
+        $scale = $height / $dim->{height};
+    }
+
+    $cr->save();
+
+    $cr->translate($x + $width / 2 - $dim->{width} * $scale / 2,
+                   $y + $height / 2 - $dim->{height} * $scale / 2);
+    $cr->scale($scale, $scale);
+    $image->render_cairo($cr);
+
+    $cr->restore();
+}
+
 sub add_card
 {
     my ($cr, %args) = @_;
@@ -147,11 +176,9 @@ sub add_card
     if ($args{icon})
     {
         # Fit into the side bar
-        $cr->save();
-        $cr->translate($INSET, $INSET);
-        $cr->scale($SIDE_TITLE_WIDTH / 100.0, $SIDE_TITLE_WIDTH / 100.0);
-        $args{icon}->render_cairo($cr);
-        $cr->restore();
+        fit_image($cr, $args{icon},
+                  $INSET, $INSET,
+                  $SIDE_TITLE_WIDTH, $SIDE_TITLE_WIDTH);
     }
 
     my $y = $INSET;
@@ -214,14 +241,9 @@ sub add_card
 
         foreach my $image (@$images)
         {
-            my $image_size = $x_size < $y_size ? $x_size : $y_size;
-
-            $cr->save();
-            $cr->translate($x + $x_size / 2.0 - $image_size / 2.0,
-                           $y + $y_size / 2.0 - $image_size / 2.0);
-            $cr->scale($image_size / 100.0, $image_size / 100.0);
-            $image->render_cairo($cr);
-            $cr->restore();
+            fit_image($cr, $image,
+                      $x, $y,
+                      $x_size, $y_size);
 
             $x += $x_size;
         }
@@ -246,19 +268,12 @@ sub add_card
     }
 }
 
-sub svg_size_cb
-{
-    # Let's just fix the size of all of the svgs to 100,100 so we can
-    # scale it to the right size later
-    return (100, 100);
-}
-
 sub load_image
 {
     my ($filename) = @_;
 
     my $rsvg = Gnome2::Rsvg::Handle->new();
-    $rsvg->set_size_callback(\&svg_size_cb);
+
     my $fin;
 
     open($fin, $filename) or die("failed opening '$filename'");
