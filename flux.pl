@@ -234,6 +234,19 @@ sub add_card
         $y += $TOP_TITLE_HEIGHT * $scale + $TOP_TITLE_GAP;
     }
 
+    # Draw the top image
+    if ($args{top_image})
+    {
+        my $image = $args{top_image};
+        my $dim = $image->get_dimensions();
+        my $x = $INSET + $SIDE_TITLE_WIDTH + $SIDE_GAP;
+        my $max_width = $CARD_WIDTH - $x - $INSET;
+        my $scale = $max_width / $dim->{width};
+        fit_image($cr, $image, $x, $y,
+                  $max_width, $scale * $dim->{height});
+        $y += $dim->{height} * $scale + $TOP_TITLE_GAP;
+    }
+
     # Draw the top paragraph
     if ($args{top_paragraph})
     {
@@ -333,11 +346,13 @@ sub add_basic_rules
     my ($cr) = @_;
 
     my $icon = load_image("basic-rules.svg");
+    my $image = load_image("scary-hand.svg");
 
     add_card($cr,
              color => $NEW_RULE_COLOR,
              title => "Prenu 1, Ludu 1",
              type => "Bazaj Reguloj",
+             top_image => $image,
              top_paragraph =>
              "Komence, miksu la kartaron kaj disdoni 3 kartojn po ludanto. "
              . "Metu ĉi tiun karton ĉe la mezo de la tablo.",
