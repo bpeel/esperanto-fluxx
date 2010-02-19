@@ -86,6 +86,12 @@ sub fit_image
 {
     my ($cr, $image, $x, $y, $width, $height) = @_;
 
+    if (ref($image) eq "CODE")
+    {
+        &$image($cr, $x, $y, $width, $height);
+        return;
+    }
+
     my $scale = 1;
 
     my $dim = $image->get_dimensions();
@@ -339,6 +345,53 @@ sub load_image
     $rsvg->close();
 
     return $rsvg;
+}
+
+sub make_disallowed_sign
+{
+    my ($image) = @_;
+
+    return sub
+    {
+        my ($cr, $x, $y, $width, $height) = @_;
+        # Thickness of the line in the sign
+        my $SIGN_WIDTH = 2;
+
+        # Draw the image underneath
+        fit_image($cr, $image, $x, $y, $width, $height);
+
+        my $sign_size = $width < $height ? $width : $height;
+        my $radius = $sign_size / 2;
+        my $angle_offset = atan($SIGN_WIDTH / 2.0 / $radius);
+
+        $cr->save();
+
+        $cr->translate($width / 2 + $x, $height / 2 + $y);
+
+        $cr->set_source_rgba(0.0, 0.0, 0.0, 0.7);
+
+        $cr->arc(0, 0,
+                 $radius - $SIGN_WIDTH,
+                 pi * 5.0 / 4.0 + $angle_offset,
+                 pi / 4.0 - $angle_offset);
+        $cr->close_path();
+
+        $cr->new_sub_path();
+        $cr->arc(0, 0,
+                 $radius - $SIGN_WIDTH,
+                 pi / 4.0 + $angle_offset,
+                 pi * 5.0 / 4.0 - $angle_offset);
+        $cr->close_path();
+
+        $cr->new_sub_path();
+        $cr->arc_negative(0, 0,
+                          $radius,
+                          2 * pi, 0);
+
+        $cr->fill();
+
+        $cr->restore();
+    };
 }
 
 sub add_basic_rules
