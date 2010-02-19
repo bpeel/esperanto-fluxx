@@ -31,6 +31,7 @@ my $NEW_RULE_COLOR = [ 244 / 255.0, 217 / 255.0, 38 / 255.0 ];
 my $BASIC_RULES_COLOR = [ 255 / 255.0, 97 / 255.0, 27 / 255.0 ];
 my $ACTION_COLOR = [ 61 / 255.0, 193 / 255.0, 185 / 255.0 ];
 my $KEEPER_COLOR = [ 177 / 255.0, 246 / 255.0, 64 / 255.0 ];
+my $GOAL_COLOR = [ 251 / 255.0, 48 / 255.0, 110 / 255.0 ];
 
 my $SIDE_GAP = 2;
 
@@ -516,6 +517,69 @@ sub add_keepers
     close($fin);
 }
 
+sub parse_keeper
+{
+    my ($keeper_name) = @_;
+
+    $keeper_name =~ /^(!?)(.*)$/;
+    my $inverted = $1 ? 1 : 0;
+    $keeper_name = $2;
+
+    my $keeper = $keepers{$keeper_name};
+    die("Unknown keeper \"$keeper_name\"") unless defined($keeper);
+
+    # Copy the keeper hash
+    $keeper = { %$keeper };
+    $keeper->{inverted} = $inverted;
+
+    return $keeper;
+}
+
+sub add_goals
+{
+    my ($cr) = @_;
+    my $icon = load_image("goal.svg");
+    my $fin;
+
+    open($fin, "<:encoding(UTF-8)", "goals.txt")
+        or die("Error opening goals.txt");
+    while (my $line = <$fin>)
+    {
+        chomp($line);
+
+        if ($line =~ /^(.+?):(.+?):(.+?)(?::(.+))?$/)
+        {
+            my $name = $1;
+            my $note = $4;
+            my @goal_keepers = map(parse_keeper($_), $2, $3);
+
+            unless (defined($note))
+            {
+                my $goal_parts = join(' ', map("kaj " . $_->{name} . "n",
+                                               @goal_keepers));
+                $note = ("Tiu ajn ludanto kiu havas $goal_parts "
+                         . "sur la tablo venkas.");
+            }
+
+            add_card($cr,
+                     type => "Celo",
+                     title => $name,
+                     icon => $icon,
+                     color => $GOAL_COLOR,
+                     top_paragraph => ("Kiam oni ludas ĉi tiun karton, "
+                                       . "metu ĝin montrante la facon ĉe "
+                                       . "la mezo de la tablo. Forĵetu "
+                                       . "iun ajn malnovan celon."),
+                     bottom_paragraph => $note,
+                     bottom_images => [ map($_->{inverted}
+                                            ? make_disallowed_sign($_->{image})
+                                            : $_->{image},
+                                            @goal_keepers) ]);
+        }
+    }
+    close($fin);
+}
+
 my $surface = Cairo::PdfSurface->create("flux.pdf",
                                         $PAGE_WIDTH * $POINTS_PER_MM,
                                         $PAGE_HEIGHT * $POINTS_PER_MM);
@@ -531,3 +595,4 @@ $cr->set_line_width(0.5);
 add_basic_rules($cr);
 add_actions($cr);
 add_keepers($cr);
+add_goals($cr);
