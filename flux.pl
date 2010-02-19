@@ -56,6 +56,8 @@ my $BOTTOM_IMAGE_GAP = 2;
 my $card_x = $PAGE_BORDER;
 my $card_y = $PAGE_BORDER;
 
+my %keepers;
+
 sub render_paragraph
 {
     my ($cr, $y, $text) = @_;
@@ -492,18 +494,23 @@ sub add_keepers
 
         if ($line =~ /^(.+):(.+)$/)
         {
-            my $image = load_image($1);
-            my $name = $2;
+            my $keeper = { image => load_image($1),
+                           name => $2 };
+            # Generate a shortname using the last word of the name
+            $keeper->{name} =~ /([[:alpha:]]+)$/;
+            # Store the keeper data in a hash indexed by the short
+            # name so we can letter to refer to it for the goals
+            $keepers{lc($1)} = $keeper;
 
             add_card($cr,
                      type => "Tenaĵo",
-                     title => $name,
+                     title => $keeper->{name},
                      icon => $icon,
                      color => $KEEPER_COLOR,
                      top_paragraph => ("Kiam oni ludas ĉi tiun karton, "
                                        . "metu ĝin montrante la facon sur "
                                        . "la tablon antaŭ vi."),
-                     bottom_images => [ $image ]);
+                     bottom_images => [ $keeper->{image} ]);
         }
     }
     close($fin);
