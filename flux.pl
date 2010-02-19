@@ -358,7 +358,7 @@ sub make_disallowed_sign
     {
         my ($cr, $x, $y, $width, $height) = @_;
         # Thickness of the line in the sign
-        my $SIGN_WIDTH = 2;
+        my $SIGN_WIDTH = 1.3;
 
         # Draw the image underneath
         fit_image($cr, $image, $x, $y, $width, $height);
