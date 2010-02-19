@@ -51,6 +51,8 @@ my $RULE_GAP = 2;
 
 my $BOTTOM_PARAGRAPH_GAP = 2;
 
+my $BOTTOM_IMAGE_GAP = 2;
+
 my $card_x = $PAGE_BORDER;
 my $card_y = $PAGE_BORDER;
 
@@ -293,7 +295,8 @@ sub add_card
     {
         my $images = $args{bottom_images};
         my $x = $INSET + $SIDE_TITLE_WIDTH + $SIDE_GAP;
-        my $x_size = ($CARD_WIDTH - $INSET - $x) / @$images;
+        my $total_gaps = (@$images - 1) * $BOTTOM_IMAGE_GAP;
+        my $x_size = ($CARD_WIDTH - $INSET - $x - $total_gaps) / @$images;
         my $y_size = $CARD_HEIGHT - $INSET - $y;
 
         foreach my $image (@$images)
@@ -302,7 +305,7 @@ sub add_card
                       $x, $y,
                       $x_size, $y_size);
 
-            $x += $x_size;
+            $x += $x_size + $BOTTOM_IMAGE_GAP;
         }
     }
 
