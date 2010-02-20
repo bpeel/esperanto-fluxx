@@ -44,9 +44,7 @@ my $SIDE_TITLE_OFFSET_FROM_TOP = 9;
 my $TOP_TITLE_HEIGHT = 9;
 my $TOP_TITLE_GAP = 1;
 
-my $CENTER_TITLE_POS = $INSET + 37;
-my $CENTER_TITLE_HEIGHT = 5;
-my $CENTER_TITLE_GAP = 2;
+my $RULE_POS = $INSET + 37 + 5 + 2;
 my $RULE_HEIGHT = 1;
 my $RULE_GAP = 2;
 
@@ -61,28 +59,36 @@ my %keepers;
 
 sub render_paragraph
 {
-    my ($cr, $y, $text) = @_;
+    my ($cr, $y, $text, $font, $align_top) = @_;
 
     my $x = $INSET + $SIDE_TITLE_WIDTH + $SIDE_GAP;
 
-    $cr->move_to($x, $y);
+    $font ||= "Serif 6.5";
 
     $cr->save();
+
+    $cr->move_to($x, $y);
 
     # Remove the mm scale
     $cr->scale(1.0 / $POINTS_PER_MM, 1.0 / $POINTS_PER_MM);
 
     my $layout = Pango::Cairo::create_layout($cr);
-    my $fd = Pango::FontDescription->from_string("Serif 6.5");
+    my $fd = Pango::FontDescription->from_string($font);
     $layout->set_font_description($fd);
     $layout->set_width(($CARD_WIDTH - $x - $INSET) * $POINTS_PER_MM
                        * Pango->scale);
     $layout->set_text($text);
+
+    my ($ink_rect, $logical_rect) = $layout->get_pixel_extents();
+
+    if ($align_top)
+    {
+        $cr->rel_move_to(0, -$logical_rect->{height});
+    }
+
     Pango::Cairo::show_layout($cr, $layout);
 
     $cr->restore();
-
-    my ($ink_rect, $logical_rect) = $layout->get_pixel_extents();
 
     return $logical_rect->{height} / $POINTS_PER_MM;
 }
@@ -264,20 +270,14 @@ sub add_card
         render_paragraph($cr, $y, $args{top_paragraph});;
     }
 
-    $y = $CENTER_TITLE_POS;
-
     # Draw the center title
     if ($args{title})
     {
-        $cr->set_font_size($CENTER_TITLE_FONT_SIZE);
-        my $font_extents = $cr->font_extents();
-        $cr->move_to($INSET + $SIDE_TITLE_WIDTH + $SIDE_GAP,
-                     $y + $CENTER_TITLE_HEIGHT / 2 -
-                     ($font_extents->{ascent} + $font_extents->{descent}) / 2 +
-                     $font_extents->{ascent});
-        $cr->show_text($args{title});
+        render_paragraph($cr, $RULE_POS,
+                         $args{title}, "Arial Black 11.2", 1);
     }
-    $y += $CENTER_TITLE_HEIGHT + $CENTER_TITLE_GAP;
+
+    $y = $RULE_POS;
 
     # Draw the horizontal rule
     $cr->rectangle($INSET + $SIDE_TITLE_WIDTH + $SIDE_GAP, $y,
