@@ -578,11 +578,36 @@ sub add_goals
     {
         chomp($line);
 
-        if ($line =~/^@(.+?):(.+?):(.+?)$/)
+        if ($line =~ /^(@)?(.+?):(.+?):(.+?)(?::(.+))?$/)
         {
-            my $name = $1;
-            my $image = load_image($2);
-            my $note = $3;
+            my $special_goal = $1;
+            my $name = $2;
+            my $images;
+            my $note;
+
+            if (defined($special_goal))
+            {
+                $images = [ load_image($3) ];
+                $note = $4;
+            }
+            else
+            {
+                my @goal_keepers = map(parse_keeper($_), $3, $4);
+                $note = $5;
+
+                unless (defined($note))
+                {
+                    my $goal_parts = join(' ', map("kaj " . $_->{name} . "n",
+                                                   @goal_keepers));
+                    $note = ("Ludanto venkas, kiu havas $goal_parts "
+                             . "sur la tablo.");
+                }
+
+                $images = [ map($_->{inverted}
+                                ? make_disallowed_sign($_->{image})
+                                : $_->{image},
+                                @goal_keepers) ];
+            }
 
             add_card($cr,
                      type => 'Celo',
@@ -594,35 +619,7 @@ sub add_goals
                                        . 'montrante la facon. Forĵetu iun '
                                        . 'ajn antaŭan Celon.'),
                      bottom_paragraph => $note,
-                     bottom_images => [$image]);
-        }
-        elsif ($line =~ /^(.+?):(.+?):(.+?)(?::(.+))?$/)
-        {
-            my $name = $1;
-            my $note = $4;
-            my @goal_keepers = map(parse_keeper($_), $2, $3);
-
-            unless (defined($note))
-            {
-                my $goal_parts = join(' ', map("kaj " . $_->{name} . "n",
-                                               @goal_keepers));
-                $note = ("Ludanto venkas, kiu havas $goal_parts sur la tablo.");
-            }
-
-            add_card($cr,
-                     type => "Celo",
-                     title => $name,
-                     icon => $icon,
-                     color => $GOAL_COLOR,
-                     top_paragraph => ('Kiam vi ludas ĉi tiun karton, metu '
-                                       . 'ĝin en la mezo de la tablo, '
-                                       . 'montrante la facon. Forĵetu iun ajn '
-                                       . 'antaŭan Celon.'),
-                     bottom_paragraph => $note,
-                     bottom_images => [ map($_->{inverted}
-                                            ? make_disallowed_sign($_->{image})
-                                            : $_->{image},
-                                            @goal_keepers) ]);
+                     bottom_images => $images);
         }
     }
     close($fin);
