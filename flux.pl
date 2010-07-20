@@ -413,9 +413,12 @@ sub add_basic_rules
              type => 'Bazaj Reguloj',
              top_image => $image,
              top_paragraph =>
-             'Por komenci, miksi la kartaron kaj disdoni po 3 kartojn al ĉiu ludanto. Metu ĉi tiun karton en la mezo de la tablo.',
+             'Por komenci, miksi la kartaron kaj disdoni po 3 kartojn '
+             . 'al ĉiu ludanto. Metu ĉi tiun karton en la mezo de la tablo.',
              bottom_paragraph =>
-             "Je via vico:\nPrenu 1 karton.\nLudu 1 karton.\n\nĈi tiu karto restu sur la tablo eĉ se novaj reguloj anstataŭigas la bazajn regulojn.",
+             "Je via vico:\nPrenu 1 karton.\nLudu 1 karton.\n\n"
+             . "Ĉi tiu karto restu sur la tablo eĉ se novaj reguloj "
+             . "anstataŭigas la bazajn regulojn.",
              side_highlight => $BASIC_RULES_COLOR,
              icon => $icon);
 }
@@ -428,7 +431,9 @@ sub add_action_card
              color => $ACTION_COLOR,
              title => $title,
              type => "Ago",
-             top_paragraph => ('Kiam vi ludus tiun ĉi karton, faru tion, kio estas skribita, kaj poste metu ĝin sur la forĵetstaplo.'),
+             top_paragraph => ('Kiam vi ludus tiun ĉi karton, faru tion, '
+                               . 'kio estas skribita, kaj poste metu ĝin '
+                               . 'sur la forĵetstaplo.'),
              bottom_paragraph => $description,
              icon => $icon);
 }
@@ -500,7 +505,9 @@ sub add_keepers
                      title => $keeper->{name},
                      icon => $icon,
                      color => $KEEPER_COLOR,
-                     top_paragraph => ('Kiam vi ludas tiun ĉi karton, metu ĝin sur la tablon, antaŭ vi, montrante la facon.'),
+                     top_paragraph => ('Kiam vi ludas tiun ĉi karton, '
+                                       . 'metu ĝin sur la tablon, antaŭ vi, '
+                                       . 'montrante la facon.'),
                      bottom_images => [ $keeper->{image} ]);
         }
     }
@@ -509,31 +516,36 @@ sub add_keepers
 
 sub add_rules
 {
-	my ($cr) = @_;
-	my $icon = load_image('basic-rules.svg');
-	my $fin;
-	
-	open($fin, "<:encoding(UTF-8)", "rules.txt")
-		or die("Error opening rules.txt");
-	
-	while (<$fin>) {
-		chomp;
-		if ($_ =~ /^(.+):(.+):(.+)$/) {
-			my $image = load_image($1);
-			my $name = $2;
-			my $desc = $3;
-		
-			add_card($cr,
-			         type => 'Regulo',
-			         title => $name,
-			         icon => $icon,
-			         color => $NEW_RULE_COLOR,
-			         top_paragraph => ('Kiam vi ludus tiun ĉi karton, metu ĝin en la mezo de la tablo. Forĵetu antaŭajn regulojn, kiujn ĉi tiu karto kontraŭdiras. La regulo tuj validas.'),
-			         bottom_images => [$image],
-			         bottom_paragraph => $desc
-			         );
-		}
-	}
+    my ($cr) = @_;
+    my $icon = load_image('basic-rules.svg');
+    my $fin;
+
+    open($fin, "<:encoding(UTF-8)", "rules.txt")
+        or die("Error opening rules.txt");
+
+    while (<$fin>)
+    {
+        chomp;
+        if ($_ =~ /^(.+):(.+):(.+)$/)
+        {
+            my $image = load_image($1);
+            my $name = $2;
+            my $desc = $3;
+
+            add_card($cr,
+                     type => 'Regulo',
+                     title => $name,
+                     icon => $icon,
+                     color => $NEW_RULE_COLOR,
+                     top_paragraph => ('Kiam vi ludus tiun ĉi karton, '
+                                       . 'metu ĝin en la mezo de la tablo. '
+                                       . 'Forĵetu antaŭajn regulojn, kiujn '
+                                       . 'ĉi tiu karto kontraŭdiras. La regulo '
+                                       . 'tuj validas.'),
+                     bottom_images => [$image],
+                     bottom_paragraph => $desc);
+        }
+    }
 }
 
 sub parse_keeper
@@ -565,22 +577,27 @@ sub add_goals
     while (my $line = <$fin>)
     {
         chomp($line);
-        
-        if ($line =~/^@(.+?):(.+?):(.+?)$/) {
+
+        if ($line =~/^@(.+?):(.+?):(.+?)$/)
+        {
             my $name = $1;
             my $image = load_image($2);
             my $note = $3;
-            
+
             add_card($cr,
                      type => 'Celo',
                      title => $name,
                      icon => $icon,
                      color => $GOAL_COLOR,
-                     top_paragraph => ('Kiam vi ludas ĉi tiun karton, metu ĝin en la mezo de la tablo, montrante la facon. Forĵetu iun ajn antaŭan Celon.'),
+                     top_paragraph => ('Kiam vi ludas ĉi tiun karton, metu '
+                                       . 'ĝin en la mezo de la tablo, '
+                                       . 'montrante la facon. Forĵetu iun '
+                                       . 'ajn antaŭan Celon.'),
                      bottom_paragraph => $note,
-                     bottom_images => [$image]
-            );
-        } elsif ($line =~ /^(.+?):(.+?):(.+?)(?::(.+))?$/) {
+                     bottom_images => [$image]);
+        }
+        elsif ($line =~ /^(.+?):(.+?):(.+?)(?::(.+))?$/)
+        {
             my $name = $1;
             my $note = $4;
             my @goal_keepers = map(parse_keeper($_), $2, $3);
@@ -597,7 +614,10 @@ sub add_goals
                      title => $name,
                      icon => $icon,
                      color => $GOAL_COLOR,
-                     top_paragraph => ('Kiam vi ludas ĉi tiun karton, metu ĝin en la mezo de la tablo, montrante la facon. Forĵetu iun ajn antaŭan Celon.'),
+                     top_paragraph => ('Kiam vi ludas ĉi tiun karton, metu '
+                                       . 'ĝin en la mezo de la tablo, '
+                                       . 'montrante la facon. Forĵetu iun ajn '
+                                       . 'antaŭan Celon.'),
                      bottom_paragraph => $note,
                      bottom_images => [ map($_->{inverted}
                                             ? make_disallowed_sign($_->{image})
