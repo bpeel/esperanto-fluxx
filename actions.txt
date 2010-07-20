@@ -1,17 +1,17 @@
-:Ĉiuj Ricevas Karton
+Ĉiuj Ricevas Karton
 Prenu sufiĉan kvanton da kartoj por doni po unu al ĉiuj ludantoj (vi inkluzive), kaj faru tion. Vi decidas, kiu ricevas kion.
 
 :Ekfiŝu
 Nomu karton. Se iu ludanto havas tiun karton enmane, li/ŝi devas doni ĝin al vi. Se neniu havas, prenu karton de la staplo. Iel ajn, se vi ricevas la celitan karton, vi rajtas tuj ludi ĝin.
 
 :Forĵetu Kaj Prenu
-Fu vian tutan Manon, kaj prenu la saman kvanton da kartoj, kiun vi forĵetis.
+Forĵetu vian tutan Manon, kaj prenu la saman kvanton da kartoj, kiun vi forĵetis.
 
 :Forĵetu Regulon
-Elektu unu el la Regulo-kartoj, kiuj estas sur la tablo, kaj metu ĝin sur la forĵetstaplo.
+Elektu unu el la Regulo-kartoj, kiuj estas sur la tablo, kaj metu ĝin sur la forĵetstaplon.
 
 :Forĵetu Tenaĵon
-Prenu surtablan Tenaĵon de ajna ludanto, kaj metu ĝin sur la Forĵetstaplo. Se neniu havas surtablan Tenaĵon kiam vi ludas cxi tiun karton, nenio okazas.
+Prenu surtablan Tenaĵon de ajna ludanto, kaj metu ĝin sur la Forĵetstaplo. Se neniu havas surtablan Tenaĵon kiam vi ludas ĉi tiun karton, nenio okazas.
 
 :Impostoj!
 Ĉiuj ludantoj devas elekti 1 karton de sia Mano kaj doni ĝin al vi.
@@ -20,10 +20,10 @@ Prenu surtablan Tenaĵon de ajna ludanto, kaj metu ĝin sur la Forĵetstaplo. Se
 Interŝanĝu la kartojn en via Mano kun tiuj de alia ludanto laŭ via elekto – eĉ se via/lia/ŝia Mano malplenas.
 
 :Interŝanĝu Tenaĵojn
-Elektu Tenaĵon, kiuj apartenas al alia ludanto, kaj interŝanĝu ĝin kun unu el la viaj. Se al vi mankas Tenaĵoj, aux ne estas Tenaĵoj sur la tablo, nenio okazas.
+Elektu Tenaĵon, kiuj apartenas al alia ludanto, kaj interŝanĝu ĝin kun unu el la viaj. Se al vi mankas Tenaĵoj, aŭ ne estas Tenaĵoj sur la tablo, nenio okazas.
 
 :Manoj Rotacias
-Ĉiu lundanto donu la kartojn en sia mano al la ludanto je sia dekstra aŭ maldekstra flanko, laŭ via elekto (sama direkto por ĉiuj ludantoj).
+Ĉiu ludanto donu la kartojn en sia mano al la ludanto je sia dekstra aŭ maldekstra flanko, laŭ via elekto (sama direkto por ĉiuj ludantoj).
 
 :Miksi Tenaĵojn
 Meti ĉiujn Tenaĵojn en stakon, miksu, kaj disdonu al ĉiuj ludantoj, komencante per vi.
@@ -47,7 +47,7 @@ Miksi la forĵetstaplon en la prenstaplon.
 Forĵetu ĉiujn Regulo-kartojn, por ke nur la Bazaj Reguloj restas sur la tablo. Ne forĵetu la nunan Celon.
 
 :Sen Limoj
-Forĵetu la nunaj Manlima kaj Tenaĵlima reguloj.
+Forĵetu la nunaj Manlimaj kaj Tenaĵlimaj reguloj.
 
 :Ŝtelu Kaj Uzu
 Prenu karton laŭ hazardo el la Mano de iu ajn alia ludanto, kaj tuj ludu ĝin.

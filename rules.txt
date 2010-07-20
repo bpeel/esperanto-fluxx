@@ -6,13 +6,13 @@ ludu-2.svg:Ludu 2:Ludu 2 kartojn dum via vico. Se vi havas malpli ol 2 kartojn e
 ludu-3.svg:Ludu 3:Ludu 3 kartojn dum via vico. Se vi havas malpli ol 3 kartojn en via mano, ludu ĉiujn kartojn, kiujn vi havas.
 ludu-4.svg:Ludu 4:Ludu 4 kartojn dum via vico. Se vi havas malpli ol 4 kartojn en via mano, ludu ĉiujn kartojn, kiujn vi havas.
 ludu-cxion.svg:Ludu Ĉion:Dum via vico, ludu ĉiujn kartojn, kiujn vi havas en via mano.
-hand-limit-0.svg:Manlimo 0:Se ne estas via vico, vi ne rajtas havi karton en la mano. Se vi bezonas, forĵetu kartojn je la fino de vi vico.
-hand-limit-1.svg:Manlimo 1:Se ne estas via vico, vi rajtas havi nur 1 karton en la mano. Se vi bezonas, forĵetu kartojn je la fino de vi vico.
-hand-limit-2.svg:Manlimo 2:Se ne estas via vico, vi rajtas havi nur 2 kartojn en la mano. Se vi bezonas, forĵetu kartojn je la fino de vi vico.
-hand-limit-3.svg:Manlimo 3:Se ne estas via vico, vi rajtas havi nur 3 karton en la mano. Se vi bezonas, forĵetu kartojn je la fino de vi vico.
-keeper-limit-2.svg:Tenaĵolimo 2:Se ne estas via vico, vi rajtas havi nur 2 Tenaĵojn surtable. Se vi bezonas, forĵetu Tenaĵojn je la fino de vi vico.
-keeper-limit-3.svg:Tenaĵolimo 3:Se ne estas via vico, vi rajtas havi nur 3 Tenaĵojn surtable. Se vi bezonas, forĵetu Tenaĵojn je la fino de vi vico.
-keeper-limit-4.svg:Tenaĵolimo 4:Se ne estas via vico, vi rajtas havi nur 4 Tenaĵojn surtable. Se vi bezonas, forĵetu Tenaĵojn je la fino de vi vico.
+hand-limit-0.svg:Manlimo 0:Se ne estas via vico, vi ne rajtas havi karton en la mano. Se vi bezonas, forĵetu kartojn je la fino de via vico.
+hand-limit-1.svg:Manlimo 1:Se ne estas via vico, vi rajtas havi nur 1 karton en la mano. Se vi bezonas, forĵetu kartojn je la fino de via vico.
+hand-limit-2.svg:Manlimo 2:Se ne estas via vico, vi rajtas havi nur 2 kartojn en la mano. Se vi bezonas, forĵetu kartojn je la fino de via vico.
+hand-limit-3.svg:Manlimo 3:Se ne estas via vico, vi rajtas havi nur 3 karton en la mano. Se vi bezonas, forĵetu kartojn je la fino de via vico.
+keeper-limit-2.svg:Tenaĵolimo 2:Se ne estas via vico, vi rajtas havi nur 2 Tenaĵojn surtable. Se vi bezonas, forĵetu Tenaĵojn je la fino de via vico.
+keeper-limit-3.svg:Tenaĵolimo 3:Se ne estas via vico, vi rajtas havi nur 3 Tenaĵojn surtable. Se vi bezonas, forĵetu Tenaĵojn je la fino de via vico.
+keeper-limit-4.svg:Tenaĵolimo 4:Se ne estas via vico, vi rajtas havi nur 4 Tenaĵojn surtable. Se vi bezonas, forĵetu Tenaĵojn je la fino de via vico.
 inflation.svg:Inflacio:Adiciu 1 al ĉiuj numeroj, kiuj aperas sur kartoj.
 ne-krokodilu.svg:"Ne Krokodilu":Neniu povas venki, kiam la Krokodilo estas sur la tablo.
 no-hand-bonus.svg:Malplenmana Bonuso:Se vi havas neniujn kartojn en la mano je la komenco de via vico, prenu 3 aldonajn kartojn.
