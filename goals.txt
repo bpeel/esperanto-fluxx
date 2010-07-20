@@ -1,1 +1,26 @@
-Paco (sen Milito):paco:!milito:Se neniu havas Militon sur la tablo, la ludanto kiu havas Pacon sur la tablo venkas.
+@10 Kartoj En Mano:10-cards.svg:Ludanto venkas, kiu havas minimume 10 kartojn en sia mano, kaj pli kartojn ol ĉiu alia ludanto.
+@5 Tenaĵoj:5-keepers.svg:Ludanto venkas, kiu havas minimume 5 Tenaĵojn sur la tablo, kaj pli Tenaĵojn ol ĉiu alia ludanto.
+Akvobataloooo!:akvo:milito
+Akvo kaj Vino:akvo:vino
+Aparatoj:panrostilo:televidilo
+Astronomio:okulo:luno
+@Bezonas Vi Nur Amon:amo.svg:Ludanto venkas, kiu havas Amon sur la tablo, sed neniun alian Tenaĵon.
+Cerbo (sen Televido):cerbo:!televidilo:Ludanto venkas, kiu havas la Cerbon sed ne la Televidilon sur la tablo.
+Diversaj Lingvoj:esperanto:krokodilo
+Gufujo:teo:luno
+Hipioj:paco:amo
+I S:biero:!suno:Ludanto venkas, kiu havas Bieron sed ne la Sunon sur la table.
+Kongreso:esperanto:biero
+Koro kaj Menso:amo:cerbo
+La Fina Venko:esperanto:paco
+Matenmanĝo:lakto:pano
+Nokto Kaj Tago:suno:luno
+Paco (sen Milito):paco:!milito:Ludanto venkas, kiu havas Pacon sur la tablo, sed nur se neniu havas Militon sur la tablo.
+Raketo al la Luno:raketo:luno
+Rostpano:pano:panrostilo
+Sciencfikcio:raketo:tempo
+Spekti Televidon:okulo:televidilo
+Tempo = Mono:tempo:mono
+Teo kun Lakto:teo:lakto
+Trinkejo:biero:vino
+Zamenhof (Okulisto):okulo:mono

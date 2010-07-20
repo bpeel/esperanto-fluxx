@@ -1,14 +1,60 @@
+:Ĉiuj Ricevas Karton
+Prenu sufiĉan kvanton da kartoj por doni po unu al ĉiuj ludantoj (vi inkluzive), kaj faru tion. Vi decidas, kiu ricevas kion.
+
 :Ekfiŝu
+Nomu karton. Se iu ludanto havas tiun karton enmane, li/ŝi devas doni ĝin al vi. Se neniu havas, prenu karton de la staplo. Iel ajn, se vi ricevas la celitan karton, vi rajtas tuj ludi ĝin.
 
-Nomu karton. Se iu enmane havas tiun karton, ili devas doni ĝin al
-vi. Se neniu havas, prenu karton. Iel ajn, se vi ricevis la celatan
-karton, vi povas tuj ludi ĝin.
+:Forĵetu Kaj Prenu
+Fu vian tutan Manon, kaj prenu la saman kvanton da kartoj, kiun vi forĵetis.
 
-:Vicumu refoje
+:Forĵetu Regulon
+Elektu unu el la Regulo-kartoj, kiuj estas sur la tablo, kaj metu ĝin sur la forĵetstaplo.
 
-Faru vicon refoje tuj post vi finas ĉi tiun.
+:Forĵetu Tenaĵon
+Prenu surtablan Tenaĵon de ajna ludanto, kaj metu ĝin sur la Forĵetstaplo. Se neniu havas surtablan Tenaĵon kiam vi ludas cxi tiun karton, nenio okazas.
 
-:Ni simpligu
+:Impostoj!
+Ĉiuj ludantoj devas elekti 1 karton de sia Mano kaj doni ĝin al vi.
 
-Laŭ via elekto forviŝu maksimume duonon (ĉirkaŭumanta alten) da la
-Novaj Regulaj kartoj kiuj estas nun ludataj.
+:Interŝanĝu Manojn
+Interŝanĝu la kartojn en via Mano kun tiuj de alia ludanto laŭ via elekto – eĉ se via/lia/ŝia Mano malplenas.
+
+:Interŝanĝu Tenaĵojn
+Elektu Tenaĵon, kiuj apartenas al alia ludanto, kaj interŝanĝu ĝin kun unu el la viaj. Se al vi mankas Tenaĵoj, aux ne estas Tenaĵoj sur la tablo, nenio okazas.
+
+:Manoj Rotacias
+Ĉiu lundanto donu la kartojn en sia mano al la ludanto je sia dekstra aŭ maldekstra flanko, laŭ via elekto (sama direkto por ĉiuj ludantoj).
+
+:Miksi Tenaĵojn
+Meti ĉiujn Tenaĵojn en stakon, miksu, kaj disdonu al ĉiuj ludantoj, komencante per vi.
+
+:Ni Faru Tion Denove!
+Serĉu la forĵetstaplon kaj prenu aŭ unu Ago-karton aŭ unu Regulo-karton laŭ via elekto, kaj tuj ludu ĝin.
+
+:Ni Simpligu
+Forĵetu maksimume duonon (ĉirkaŭumanta alten) da la Regulo-kartojn (laŭ via elekto), kiuj estas sur la tablo.
+
+:Prenu 2 Kaj Uzu Ilin
+Flankenmetu vian Manon. Prenu 2 kartojn kaj ludu ilin. Vi elektas la ordon, en kiun vi ludas la kartojn. Poste reprenu vian Manon kaj daŭrigu vian vicon.
+
+:Prenu 3 Kaj Uzu 2
+Flankenmetu vian Manon. Prenu 3 kartojn kaj ludu 2, laŭ via elekto. Forĵetu la alian. Poste reprenu vian Manon kaj daŭrigu vian vicon.
+
+:Recikligo
+Miksi la forĵetstaplon en la prenstaplon.
+
+:Regulo-reŝargo
+Forĵetu ĉiujn Regulo-kartojn, por ke nur la Bazaj Reguloj restas sur la tablo. Ne forĵetu la nunan Celon.
+
+:Sen Limoj
+Forĵetu la nunaj Manlima kaj Tenaĵlima reguloj.
+
+:Ŝtelu Kaj Uzu
+Prenu karton laŭ hazardo el la Mano de iu ajn alia ludanto, kaj tuj ludu ĝin.
+
+:Ŝtelu Tenaĵon
+Ŝtelu unu surtablan Tenaĵon de iu alia ludanto (laŭ via elekto), kaj metu ĝin surtablen antaŭ vi.
+
+:Vicumu Refoje
+Faru vicon refoje, tuj post la fino de via nuna vico.
+

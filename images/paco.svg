@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+	<!ENTITY ns_svg "http://www.w3.org/2000/svg">
+	<!ENTITY ns_xlink "http://www.w3.org/1999/xlink">
+]>
+<svg  version="1.1"
+	 xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;" i:viewOrigin="52.7056 778.0547" i:rulerOrigin="0 0" i:pageBounds="0 792 612 0"
+	 xmlns="&ns_svg;" xmlns:xlink="&ns_xlink;" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 width="472.951" height="465.479" viewBox="0 0 472.951 465.479" overflow="visible" enable-background="new 0 0 472.951 465.479"
+	 xml:space="preserve">
+<metadata>
+	<variableSets  xmlns="&ns_vars;">
+		<variableSet  locked="none" varSetName="binding1">
+			<variables></variables>
+			<v:sampleDataSets  xmlns="&ns_custom;" xmlns:v="&ns_vars;"></v:sampleDataSets>
+		</variableSet>
+	</variableSets>
+	<sfw  xmlns="&ns_sfw;">
+		<slices></slices>
+		<sliceSourceBounds  y="312.576" x="52.706" height="465.479" width="472.951" bottomLeftOrigin="true"></sliceSourceBounds>
+	</sfw>
+</metadata>
+<switch>
+	<g i:extraneous="self">
+		<g id="Layer_1" i:layer="yes" i:dimmedPercent="50" i:rgbTrio="#4F008000FFFF">
+			<path i:knockout="Off" fill="#F7931D" d="M455.759,144.341c28.21,64.533,21.02,150.192-16.556,208.758
+				C387.5,435.946,293.464,477.158,198.27,462.595C121.46,452.31,48.422,396.819,18.537,323.708
+				C-18.267,243.064,1.498,138.993,62.198,75.34C130.27,1.69,241.588-20.098,331.63,19.465
+				C384.416,41.7,434.615,90.668,455.759,144.341z M146.948,65.767c-66.27,35.266-106.708,107.271-98.84,182.89
+				c3.705,28.8,12.122,56.48,28.413,79.584c3.228,3.67,7.924,2.311,12.169,1.669l4.647-2.302
+				c40.069-38.306,78.208-77.011,118.24-116.021c1.137-7.875-0.18-17.315,0.455-25.641c-0.743-44.578,0.867-89.245-0.792-132.83
+				c-7.292-10.872-19.791-2.566-29.7-1.241C169.561,55.182,158.135,60.36,146.948,65.767z M125.711,367.241l-2.81,4.866
+				c-0.394,3.778-0.065,7.35,2.191,10.059c11.484,9.254,24.509,15.482,37.791,21.488c13.306,5.297,27.078,10.855,42.27,10.776
+				c4.791-1.233,5.466-6.188,6.352-10.182c0.989-41.25,0.263-80.916,0.527-121.711C183.11,310.522,154.198,338.268,125.711,367.241z
+				 M291.458,51.877c-9.914-1.326-22.406-9.631-29.7,1.241c-1.664,43.584-0.047,88.251-0.792,132.83
+				c0.637,8.325-0.68,17.766,0.449,25.641c40.031,39.01,78.179,77.714,118.242,116.021l4.646,2.302
+				c4.252,0.642,8.948,2.001,12.174-1.669c16.298-23.104,24.712-50.784,28.415-79.584c7.866-75.619-32.568-147.624-98.85-182.89
+				C314.868,60.36,303.439,55.182,291.458,51.877z M260.966,282.538c0.262,40.795-0.465,80.461,0.529,121.711
+				c0.881,3.993,1.561,8.948,6.352,10.182c15.197,0.079,28.959-5.479,42.268-10.776c13.279-6.006,26.306-12.234,37.785-21.488
+				c2.26-2.709,2.588-6.281,2.199-10.059l-2.813-4.866C318.795,338.268,289.892,310.522,260.966,282.538z"/>
+		</g>
+	</g>
+</switch>
+</svg>

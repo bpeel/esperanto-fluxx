@@ -27,16 +27,16 @@ my $INSET = 3;
 my $SIDE_TITLE_WIDTH = 8;
 my $HIGHLIGHT_WIDTH = 0.5;
 
-my $NEW_RULE_COLOR = [ 244 / 255.0, 217 / 255.0, 38 / 255.0 ];
+my $NEW_RULE_COLOR = [ 244 / 255.0, 217 / 255.0, 0 / 255.0 ];
 my $BASIC_RULES_COLOR = [ 255 / 255.0, 97 / 255.0, 27 / 255.0 ];
-my $ACTION_COLOR = [ 61 / 255.0, 193 / 255.0, 185 / 255.0 ];
-my $KEEPER_COLOR = [ 177 / 255.0, 246 / 255.0, 64 / 255.0 ];
+my $ACTION_COLOR = [ 35 / 255.0, 184 / 255.0, 220 / 255.0 ];
+my $KEEPER_COLOR = [ 0 / 255.0, 246 / 255.0, 64 / 255.0 ];
 my $GOAL_COLOR = [ 251 / 255.0, 48 / 255.0, 110 / 255.0 ];
 
 my $SIDE_GAP = 2;
 
 my $TOP_TITLE_FONT_SIZE = 9;
-my $SIDE_TITLE_FONT_SIZE = 6;
+my $SIDE_TITLE_FONT_SIZE = 5.8;
 my $CENTER_TITLE_FONT_SIZE = 5;
 
 my $SIDE_TITLE_OFFSET_FROM_TOP = 9;
@@ -333,7 +333,7 @@ sub add_card
 
 sub load_image
 {
-    my ($filename) = @_;
+    my $filename = 'images/' . shift;
 
     my $rsvg = Gnome2::Rsvg::Handle->new();
 
@@ -404,25 +404,18 @@ sub add_basic_rules
 {
     my ($cr) = @_;
 
-    my $icon = load_image("basic-rules.svg");
-    my $image = load_image("scary-hand.svg");
+    my $icon = load_image('basic-rules.svg');
+    my $image = load_image('scary-hand.svg');
 
     add_card($cr,
              color => $NEW_RULE_COLOR,
-             title => "Prenu 1, Ludu 1",
-             type => "Bazaj Reguloj",
+             title => 'Prenu 1, Ludu 1',
+             type => 'Bazaj Reguloj',
              top_image => $image,
              top_paragraph =>
-             "Komence, miksu la kartaron kaj disdoni 3 kartojn po ludanto. "
-             . "Metu ĉi tiun karton ĉe la mezo de la tablo.",
+             'Por komenci, miksi la kartaron kaj disdoni po 3 kartojn al ĉiu ludanto. Metu ĉi tiun karton en la mezo de la tablo.',
              bottom_paragraph =>
-             "Prenu 1 karton po vico.\n"
-             . "Ludu 1 karton po vico.\n"
-             . "Neniu manlimo.\n"
-             . "Neniu limo de tenaĵoj.\n"
-             . "\n"
-             . "Ĉi tiu karto restu sur la tablo eĉ se novaj reguloj "
-             . "anstataŭigas la bazajn regulojn.",
+             "Je via vico:\nPrenu 1 karton.\nLudu 1 karton.\n\nĈi tiu karto restu sur la tablo eĉ se novaj reguloj anstataŭigas la bazajn regulojn.",
              side_highlight => $BASIC_RULES_COLOR,
              icon => $icon);
 }
@@ -435,8 +428,7 @@ sub add_action_card
              color => $ACTION_COLOR,
              title => $title,
              type => "Ago",
-             top_paragraph => ("Kiam oni ludas ĉi tiun karton, "
-                               . "faru tion ajn kiu estas skribata."),
+             top_paragraph => ('Kiam vi ludus tiun ĉi karton, faru tion, kio estas skribita, kaj poste metu ĝin sur la forĵetstaplo.'),
              bottom_paragraph => $description,
              icon => $icon);
 }
@@ -508,13 +500,40 @@ sub add_keepers
                      title => $keeper->{name},
                      icon => $icon,
                      color => $KEEPER_COLOR,
-                     top_paragraph => ("Kiam oni ludas ĉi tiun karton, "
-                                       . "metu ĝin montrante la facon sur "
-                                       . "la tablon antaŭ vi."),
+                     top_paragraph => ('Kiam vi ludas tiun ĉi karton, metu ĝin sur la tablon, antaŭ vi, montrante la facon.'),
                      bottom_images => [ $keeper->{image} ]);
         }
     }
     close($fin);
+}
+
+sub add_rules
+{
+	my ($cr) = @_;
+	my $icon = load_image('basic-rules.svg');
+	my $fin;
+	
+	open($fin, "<:encoding(UTF-8)", "rules.txt")
+		or die("Error opening rules.txt");
+	
+	while (<$fin>) {
+		chomp;
+		if ($_ =~ /^(.+):(.+):(.+)$/) {
+			my $image = load_image($1);
+			my $name = $2;
+			my $desc = $3;
+		
+			add_card($cr,
+			         type => 'Regulo',
+			         title => $name,
+			         icon => $icon,
+			         color => $NEW_RULE_COLOR,
+			         top_paragraph => ('Kiam vi ludus tiun ĉi karton, metu ĝin en la mezo de la tablo. Forĵetu antaŭajn regulojn, kiujn ĉi tiu karto kontraŭdiras. La regulo tuj validas.'),
+			         bottom_images => [$image],
+			         bottom_paragraph => $desc
+			         );
+		}
+	}
 }
 
 sub parse_keeper
@@ -546,9 +565,22 @@ sub add_goals
     while (my $line = <$fin>)
     {
         chomp($line);
-
-        if ($line =~ /^(.+?):(.+?):(.+?)(?::(.+))?$/)
-        {
+        
+        if ($line =~/^@(.+?):(.+?):(.+?)$/) {
+            my $name = $1;
+            my $image = load_image($2);
+            my $note = $3;
+            
+            add_card($cr,
+                     type => 'Celo',
+                     title => $name,
+                     icon => $icon,
+                     color => $GOAL_COLOR,
+                     top_paragraph => ('Kiam vi ludas ĉi tiun karton, metu ĝin en la mezo de la tablo, montrante la facon. Forĵetu iun ajn antaŭan Celon.'),
+                     bottom_paragraph => $note,
+                     bottom_images => [$image]
+            );
+        } elsif ($line =~ /^(.+?):(.+?):(.+?)(?::(.+))?$/) {
             my $name = $1;
             my $note = $4;
             my @goal_keepers = map(parse_keeper($_), $2, $3);
@@ -557,8 +589,7 @@ sub add_goals
             {
                 my $goal_parts = join(' ', map("kaj " . $_->{name} . "n",
                                                @goal_keepers));
-                $note = ("Tiu ajn ludanto kiu havas $goal_parts "
-                         . "sur la tablo venkas.");
+                $note = ("Ludanto venkas, kiu havas $goal_parts sur la tablo.");
             }
 
             add_card($cr,
@@ -566,10 +597,7 @@ sub add_goals
                      title => $name,
                      icon => $icon,
                      color => $GOAL_COLOR,
-                     top_paragraph => ("Kiam oni ludas ĉi tiun karton, "
-                                       . "metu ĝin montrante la facon ĉe "
-                                       . "la mezo de la tablo. Forĵetu "
-                                       . "iun ajn malnovan celon."),
+                     top_paragraph => ('Kiam vi ludas ĉi tiun karton, metu ĝin en la mezo de la tablo, montrante la facon. Forĵetu iun ajn antaŭan Celon.'),
                      bottom_paragraph => $note,
                      bottom_images => [ map($_->{inverted}
                                             ? make_disallowed_sign($_->{image})
@@ -580,7 +608,7 @@ sub add_goals
     close($fin);
 }
 
-my $surface = Cairo::PdfSurface->create("flux.pdf",
+my $surface = Cairo::PdfSurface->create("esperantofluxx.pdf",
                                         $PAGE_WIDTH * $POINTS_PER_MM,
                                         $PAGE_HEIGHT * $POINTS_PER_MM);
 
@@ -596,3 +624,4 @@ add_basic_rules($cr);
 add_actions($cr);
 add_keepers($cr);
 add_goals($cr);
+add_rules($cr);
