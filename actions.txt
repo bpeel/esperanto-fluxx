@@ -1,5 +1,5 @@
-Ĉiuj Ricevas Karton
-Prenu sufiĉan kvanton da kartoj por doni po unu al ĉiuj ludantoj (vi inkluzive), kaj faru tion. Vi decidas, kiu ricevas kion.
+:Ĉiuj Ricevas Karton
+Prenu sufiĉan kvanton da kartoj por doni po unu al ĉiuj ludantoj (vi inkluzive), kaj faru tion. Vi decidas, kiu ricevas kiun karton.
 
 :Ekfiŝu
 Nomu karton. Se iu ludanto havas tiun karton enmane, li/ŝi devas doni ĝin al vi. Se neniu havas, prenu karton de la staplo. Iel ajn, se vi ricevas la celitan karton, vi rajtas tuj ludi ĝin.
