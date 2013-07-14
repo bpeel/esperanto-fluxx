@@ -556,8 +556,8 @@ sub add_rules
                      color => $NEW_RULE_COLOR,
                      top_paragraph => ('Kiam vi ludus tiun ĉi karton, '
                                        . 'metu ĝin en la mezo de la tablo. '
-                                       . 'Forĵetu antaŭajn regulojn, kiujn '
-                                       . 'ĉi tiu karto kontraŭdiras. La regulo '
+                                       . 'Forigu regulojn, kiujn '
+                                       . 'ĉi tiu karto kontraŭas. La regulo '
                                        . 'tuj validas.'),
                      bottom_images => [$image],
                      bottom_paragraph => $desc);
