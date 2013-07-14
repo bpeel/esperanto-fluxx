@@ -450,7 +450,7 @@ sub add_action_card
              type => "Ago",
              top_paragraph => ('Kiam vi ludus tiun ĉi karton, faru tion, '
                                . 'kio estas skribita, kaj poste metu ĝin '
-                               . 'sur la forĵetstaplo.'),
+                               . 'sur la forĵetstaplon.'),
              bottom_paragraph => $description,
              icon => $icon);
 }
