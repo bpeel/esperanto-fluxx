@@ -68,12 +68,11 @@ BOTTOM_PARAGRAPH_GAP = 2
 
 BOTTOM_IMAGE_GAP = 2
 
-card_x = PAGE_BORDER
-card_y = PAGE_BORDER
-
 keepers = {}
+cards = []
 
-def render_paragraph(cr, y, text, font = "Serif 6.5", align_top = False):
+def render_paragraph(cr, unit_scale, y, text, font = "Serif 6.5",
+                     align_top = False):
     x = INSET + SIDE_TITLE_WIDTH + SIDE_GAP
 
     cr.save()
@@ -81,12 +80,12 @@ def render_paragraph(cr, y, text, font = "Serif 6.5", align_top = False):
     cr.move_to(x, y)
 
     # Remove the mm scale
-    cr.scale(1.0 / POINTS_PER_MM, 1.0 / POINTS_PER_MM)
+    cr.scale(1.0 / unit_scale, 1.0 / unit_scale)
 
     layout = PangoCairo.create_layout(cr)
     fd = Pango.FontDescription.from_string(font)
     layout.set_font_description(fd)
-    layout.set_width((CARD_WIDTH - x - INSET) * POINTS_PER_MM
+    layout.set_width((CARD_WIDTH - x - INSET) * unit_scale
                      * Pango.SCALE)
     layout.set_text(text, -1)
 
@@ -99,7 +98,7 @@ def render_paragraph(cr, y, text, font = "Serif 6.5", align_top = False):
 
     cr.restore()
 
-    return logical_rect.height / POINTS_PER_MM
+    return logical_rect.height / unit_scale
 
 def fit_image(cr, image, x, y, width, height):
 
@@ -127,13 +126,13 @@ def fit_image(cr, image, x, y, width, height):
 
     cr.restore()
 
-def add_card(cr, **args):
-    global card_x, card_y
+def add_card(**args):
+    global cards
 
+    cards.append(args)
+
+def render_card(cr, unit_scale, args):
     cr.save()
-
-    # Set the origin to the top left of the card
-    cr.translate(card_x, card_y)
 
     cr.new_path()
 
@@ -251,11 +250,11 @@ def add_card(cr, **args):
 
     # Draw the top paragraph
     if "top_paragraph" in args:
-        render_paragraph(cr, y, args["top_paragraph"])
+        render_paragraph(cr, unit_scale, y, args["top_paragraph"])
 
     # Draw the center title
     if "title" in args:
-        render_paragraph(cr, RULE_POS,
+        render_paragraph(cr, unit_scale, RULE_POS,
                          args["title"], "Arial Black 11.2", 1)
 
     y = RULE_POS
@@ -269,7 +268,7 @@ def add_card(cr, **args):
 
     # Draw the bottom paragraph
     if "bottom_paragraph" in args:
-        y += render_paragraph(cr, y, args["bottom_paragraph"])
+        y += render_paragraph(cr, unit_scale, y, args["bottom_paragraph"])
         y += BOTTOM_PARAGRAPH_GAP
 
     # Draw the bottom images
@@ -288,18 +287,6 @@ def add_card(cr, **args):
             x += x_size + BOTTOM_IMAGE_GAP
 
     cr.restore()
-
-    # Move to the next horizontal card space
-    card_x += CARD_WIDTH + CARD_GAP
-    # If this card won't fix then move to the next line
-    if card_x + CARD_WIDTH > PAGE_WIDTH - PAGE_BORDER * 2:
-        card_x = PAGE_BORDER
-        card_y += CARD_HEIGHT + CARD_GAP
-        # If this card would go off the end of the page then start a
-        # new page
-        if card_y + CARD_HEIGHT > PAGE_HEIGHT - PAGE_BORDER * 2:
-            cr.show_page()
-            card_y = PAGE_BORDER
 
 def load_image(filename):
     return Rsvg.Handle.new_from_file('images/' + filename)
@@ -346,12 +333,11 @@ def make_disallowed_sign(image):
 
     return func
 
-def add_basic_rules(cr):
+def add_basic_rules():
     icon = load_image('basic-rules.svg')
     image = load_image('scary-hand.svg')
 
-    add_card(cr,
-             color = NEW_RULE_COLOR,
+    add_card(color = NEW_RULE_COLOR,
              title = 'Prenu 1, Ludu 1',
              type = 'Bazaj Reguloj',
              top_image = image,
@@ -365,10 +351,9 @@ def add_basic_rules(cr):
              side_highlight = BASIC_RULES_COLOR,
              icon = icon)
 
-def add_action_card(cr, title, description, icon):
+def add_action_card(title, description, icon):
 
-    add_card(cr,
-             color = ACTION_COLOR,
+    add_card(color = ACTION_COLOR,
              title = title,
              type = "Ago",
              top_paragraph = ('Kiam vi ludus tiun ĉi karton, faru tion, '
@@ -377,7 +362,7 @@ def add_action_card(cr, title, description, icon):
              bottom_paragraph = description,
              icon = icon)
 
-def add_actions(cr):
+def add_actions():
 
     icon = load_image("action.svg")
 
@@ -391,7 +376,7 @@ def add_actions(cr):
         title_match = re.match(r':(.*)', line)
         if title_match:
             if title:
-                add_action_card(cr, title, description, icon)
+                add_action_card(title, description, icon)
                 description = ""
             title = title_match.group(1)
         elif title and re.search(r'.', line):
@@ -401,9 +386,9 @@ def add_actions(cr):
     fin.close()
 
     if title:
-        add_action_card(cr, title, description, icon)
+        add_action_card(title, description, icon)
 
-def add_keepers(cr):
+def add_keepers():
     icon = load_image("keeper.svg")
 
     fin = open("keepers.txt", mode='r', encoding='utf-8')
@@ -420,8 +405,7 @@ def add_keepers(cr):
             # name so we can letter to refer to it for the goals
             keepers[name_match.group(1).lower()] = keeper
 
-            add_card(cr,
-                     type = "Tenaĵo",
+            add_card(type = "Tenaĵo",
                      title = keeper['name'],
                      icon = icon,
                      color = KEEPER_COLOR,
@@ -432,7 +416,7 @@ def add_keepers(cr):
 
     fin.close()
 
-def add_rules(cr):
+def add_rules():
     icon = load_image('basic-rules.svg')
 
     fin = open("rules.txt", mode='r', encoding='utf-8')
@@ -447,8 +431,7 @@ def add_rules(cr):
             name = m.group(2)
             desc = m.group(3)
 
-            add_card(cr,
-                     type = 'Regulo',
+            add_card(type = 'Regulo',
                      title = name,
                      icon = icon,
                      color = NEW_RULE_COLOR,
@@ -476,7 +459,7 @@ def parse_keeper(keeper_name):
 
     return keeper
 
-def add_goals(cr):
+def add_goals():
     icon = load_image("goal.svg")
 
     fin = open("goals.txt", mode='r', encoding='utf-8')
@@ -509,8 +492,7 @@ def add_goals(cr):
                                   x["inverted"] else x["image"],
                                   goal_keepers))
 
-            add_card(cr,
-                     type = 'Celo',
+            add_card(type = 'Celo',
                      title = name,
                      icon = icon,
                      color = GOAL_COLOR,
@@ -522,6 +504,14 @@ def add_goals(cr):
                      bottom_images = images)
 
     fin.close()
+
+add_basic_rules()
+add_actions()
+add_keepers()
+add_goals()
+add_rules()
+
+# Make a PDF version of the cards
 
 surface = cairo.PDFSurface("esperantofluxx.pdf",
                            PAGE_WIDTH * POINTS_PER_MM,
@@ -535,8 +525,25 @@ cr.scale(POINTS_PER_MM, POINTS_PER_MM)
 # Use ½mm line width
 cr.set_line_width(0.5)
 
-add_basic_rules(cr)
-add_actions(cr)
-add_keepers(cr)
-add_goals(cr)
-add_rules(cr)
+card_x = PAGE_BORDER
+card_y = PAGE_BORDER
+
+for card in cards:
+    cr.save()
+    cr.translate(card_x, card_y)
+
+    render_card(cr, POINTS_PER_MM, card)
+
+    # Move to the next horizontal card space
+    card_x += CARD_WIDTH + CARD_GAP
+    # If this card won't fit then move to the next line
+    if card_x + CARD_WIDTH > PAGE_WIDTH - PAGE_BORDER * 2:
+        card_x = PAGE_BORDER
+        card_y += CARD_HEIGHT + CARD_GAP
+        # If this card would go off the end of the page then start a
+        # new page
+        if card_y + CARD_HEIGHT > PAGE_HEIGHT - PAGE_BORDER * 2:
+            cr.show_page()
+            card_y = PAGE_BORDER
+
+    cr.restore()
