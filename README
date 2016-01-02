@@ -1,8 +1,3 @@
 Esperanto Fluxx
 
-To build the PDF file, run ./flux.pl
-
-You will need the Gnome2::Rsvg Perl module to make it work; to install this on an Ubuntu system, do:
-
-sudo apt-get install librsvg2-dev
-sudo perl -MCPAN -e 'install Gnome2::Rsvg'
+To build the PDF file, run ./fluxx.py
