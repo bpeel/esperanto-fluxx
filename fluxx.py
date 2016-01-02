@@ -298,6 +298,15 @@ def render_card(cr, unit_scale, args):
 
     cr.restore()
 
+def render_hidden_card(cr):
+    cr.save()
+    cr.set_font_size(50)
+    fascent, fdescent, fheight, fxadvance, fyadvance = cr.font_extents()
+    width = cr.text_extents("?")[2]
+    cr.move_to(CARD_WIDTH / 2 - width / 2,
+               CARD_HEIGHT / 2 + fheight / 2 - fdescent)
+    cr.show_text("?")
+    cr.restore()
 def load_image(filename):
     return Rsvg.Handle.new_from_file('images/' + filename)
 
@@ -578,16 +587,27 @@ pixel_off_y = card_pixel_height / 2 - CARD_HEIGHT * units_scale / 2
 for card_num in range(0, len(cards)):
     card = cards[card_num]
 
-    card_num_in_image = card_num % (IMAGE_CARDS_X * IMAGE_CARDS_Y)
+    card_num_in_image = card_num % (IMAGE_CARDS_X * IMAGE_CARDS_Y - 1)
 
     if card_num_in_image == 0:
         surface = cairo.ImageSurface(cairo.FORMAT_RGB24,
                                      IMAGE_WIDTH, IMAGE_HEIGHT)
         surfaces.append(surface)
         cr = cairo.Context(surface)
+
         cr.save()
         cr.set_source_rgb(1, 1, 1)
         cr.paint()
+        cr.restore()
+
+        # The last card in each image is the card that is shown when
+        # it is hidden in a player's hand. This draws a question mark
+        # there.
+        cr.save()
+        cr.translate((IMAGE_CARDS_X - 1) * card_pixel_width + pixel_off_x,
+                     (IMAGE_CARDS_Y - 1) * card_pixel_height + pixel_off_y)
+        cr.scale(units_scale, units_scale)
+        render_hidden_card(cr)
         cr.restore()
 
     cr.save()
