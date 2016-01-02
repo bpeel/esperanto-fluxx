@@ -1,3 +1,12 @@
 Esperanto Fluxx
 
-To build the PDF file, run ./fluxx.py
+To generate the deck run ./fluxx.py. This will generate two sets of
+files:
+
+esperantofluxx.pdf
+  This will be a document with the cards laid out
+  on A4-sized pages suitable for printing.
+
+esperantofluxx-XX.png
+  This will be a series of images that are suitable for importing into
+  the Tabletop Simulator game.

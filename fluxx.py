@@ -68,6 +68,11 @@ BOTTOM_PARAGRAPH_GAP = 2
 
 BOTTOM_IMAGE_GAP = 2
 
+IMAGE_WIDTH = 4096
+IMAGE_HEIGHT = 4096
+IMAGE_CARDS_X = 10
+IMAGE_CARDS_Y = 7
+
 keepers = {}
 cards = []
 
@@ -83,6 +88,10 @@ def render_paragraph(cr, unit_scale, y, text, font = "Serif 6.5",
     cr.scale(1.0 / unit_scale, 1.0 / unit_scale)
 
     layout = PangoCairo.create_layout(cr)
+    m = re.match(r'(.*?)([0-9]+(\.[0-9]*)?)$', font)
+    font_size = float(m.group(2))
+    font_size *= unit_scale / POINTS_PER_MM
+    font = m.group(1) + str(font_size)
     fd = Pango.FontDescription.from_string(font)
     layout.set_font_description(fd)
     layout.set_width((CARD_WIDTH - x - INSET) * unit_scale
@@ -131,9 +140,7 @@ def add_card(**args):
 
     cards.append(args)
 
-def render_card(cr, unit_scale, args):
-    cr.save()
-
+def render_outline(cr):
     cr.new_path()
 
     # Draw the card outline as a curved rectangle
@@ -158,6 +165,9 @@ def render_card(cr, unit_scale, args):
            math.pi / 2, math.pi)
     cr.close_path()
     cr.stroke()
+
+def render_card(cr, unit_scale, args):
+    cr.save()
 
     # Draw the background of side title
     if "color" in args:
@@ -532,6 +542,7 @@ for card in cards:
     cr.save()
     cr.translate(card_x, card_y)
 
+    render_outline(cr)
     render_card(cr, POINTS_PER_MM, card)
 
     # Move to the next horizontal card space
@@ -547,3 +558,47 @@ for card in cards:
             card_y = PAGE_BORDER
 
     cr.restore()
+
+# Make a PNG version of the cards suitable for Tabletop Simulator
+card_num = 0
+cr = None
+surfaces = []
+
+card_pixel_width = IMAGE_WIDTH / IMAGE_CARDS_X
+card_pixel_height = IMAGE_HEIGHT / IMAGE_CARDS_Y
+
+if CARD_WIDTH / CARD_HEIGHT > card_pixel_width / card_pixel_height:
+    units_scale = card_pixel_width / CARD_WIDTH
+else:
+    units_scale = card_pixel_height / CARD_HEIGHT
+
+pixel_off_x = card_pixel_width / 2 - CARD_WIDTH * units_scale / 2
+pixel_off_y = card_pixel_height / 2 - CARD_HEIGHT * units_scale / 2
+
+for card_num in range(0, len(cards)):
+    card = cards[card_num]
+
+    card_num_in_image = card_num % (IMAGE_CARDS_X * IMAGE_CARDS_Y)
+
+    if card_num_in_image == 0:
+        surface = cairo.ImageSurface(cairo.FORMAT_RGB24,
+                                     IMAGE_WIDTH, IMAGE_HEIGHT)
+        surfaces.append(surface)
+        cr = cairo.Context(surface)
+        cr.save()
+        cr.set_source_rgb(1, 1, 1)
+        cr.paint()
+        cr.restore()
+
+    cr.save()
+    cr.translate(card_num_in_image % IMAGE_CARDS_X * card_pixel_width +
+                 pixel_off_x,
+                 card_num_in_image // IMAGE_CARDS_X * card_pixel_height +
+                 pixel_off_y)
+    cr.scale(units_scale, units_scale)
+    render_card(cr, units_scale, card)
+    cr.restore()
+
+for surface_num in range(0, len(surfaces)):
+    surface = surfaces[surface_num]
+    surface.write_to_png("esperantofluxx-{:02d}.png".format(surface_num))
