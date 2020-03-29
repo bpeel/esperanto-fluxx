@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Esperanto-fluxx - A script for generating an Esperanto version of Fluxx
-# Copyright (C) 2010, 2016  Neil Roberts
+# Copyright (C) 2010, 2016, 2020  Neil Roberts
 # Copyright (C) 2010  Thomas Preece
 #
 # This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ import cairo
 import math
 import re
 import collections
+import os
 
 POINTS_PER_MM = 2.8346457
 
@@ -622,3 +623,29 @@ for card_num in range(0, len(cards)):
 for surface_num in range(0, len(surfaces)):
     surface = surfaces[surface_num]
     surface.write_to_png("esperantofluxx-{:02d}.png".format(surface_num))
+
+# Make a PNG of each card for Tabletopia
+CARD_SCALE = 7
+
+try:
+    os.mkdir("tabletopia")
+except FileExistsError:
+    pass
+
+for card_num, card in enumerate(cards):
+    surface = cairo.ImageSurface(cairo.FORMAT_RGB24,
+                                 CARD_WIDTH * CARD_SCALE,
+                                 CARD_HEIGHT * CARD_SCALE)
+    cr = cairo.Context(surface)
+
+    cr.save()
+    cr.set_source_rgb(1.0, 1.0, 1.0)
+    cr.paint()
+    cr.restore()
+
+    cr.scale(CARD_SCALE, CARD_SCALE)
+
+    render_outline(cr)
+    render_card(cr, CARD_SCALE, card)
+
+    surface.write_to_png("tabletopia/front-{:02d}.png".format(card_num))
